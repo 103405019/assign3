@@ -79,7 +79,6 @@ void draw() {
     
    //enemies
    timer+=3;
-   println(timer,enX, enY);
    if(timer==981){
     enX=0;enY=floor(random(0,130));
     straightMode=false;
