@@ -1,8 +1,8 @@
 PImage bg1, bg2, enemy, fighter, hp, treasure, start1, start2, end1, end2;
 int bg, enX, enY, hps, trX, trY, ftX, ftY, timer;
 float speed;
+boolean straightMode=true, tiltMode=false, squareMode=false;
 boolean upPressed=false, downPressed=false, leftPressed=false, rightPressed=false;
-boolean straight=true, tilt=false, square=false;
 final int START=0, PLAYING=1, END=2;
 int gameState;
 
@@ -63,7 +63,6 @@ void draw() {
   //enemy
    //move 
    enX+=3;
-   enX%=2120;
    /*if(upPressed){
     if(enY+30>ftY+25){enY-=(speed-2);}
     if(enY+30<ftY+25){enY+=(speed-2);}
@@ -77,34 +76,63 @@ void draw() {
     if(enY+30>ftY+25){enY-=(speed-2);}
     if(enY+30<ftY+25){enY+=(speed-2);}
     else if(enY+30==ftY+25){enY=ftY;}} */
-   if(enX==0){enY=floor(random(45,420));}
-   if(enX==1060){enY=floor(random(185,280));}
     
    //enemies
+   timer+=3;
+   println(timer,enX, enY);
+   if(timer==981){
+    enX=0;enY=floor(random(0,130));
+    straightMode=false;
+    tiltMode=true;
+   }
+   if(timer==1962){
+    enX=0;enY=floor(random(0,180));
+    tiltMode=false;
+    squareMode=true;
+   }
+   if(timer==2901){
+    enX=0;enY=floor(random(0,420));
+    squareMode=false;
+    straightMode=true;
+    timer=0;
+   }
    
- /*  //straight
+   //straight
+   if(straightMode){
      for(int X=-340; X<=0; X+=70){
      pushMatrix();
      translate(X,0);
       image(enemy, enX, enY);
      popMatrix();}
+   }
    
    //tilt
+   if(tiltMode){
     for(int X=-340; X<=0; X+=70){
      pushMatrix();
-     translate(X-1060,X+140);
+     translate(X,X+340);
       image(enemy, enX, enY);
-     popMatrix();}*/
+     popMatrix();}
+   }
      
    //square
-    for(int X=-240; X<0; X+=80){
+   if(squareMode){
+    for(int X=-170; X<0; X+=60){
      pushMatrix();
-     translate(X,X);
-     if(X%120==0){
-      image(enemy, enX, enY);
-     }else{
-       image(enemy, enX-30, enY);}
-     popMatrix();}}
+     translate(X,X+170);
+       image(enemy, enX-30, enY);
+     popMatrix();}
+   for(int X=-170; X<0; X+=60){
+     pushMatrix();
+     translate(X-120,X+290);
+       image(enemy, enX-30, enY);
+     popMatrix();}     
+   for(int X=-170; X<0; X+=120){
+     pushMatrix();
+     translate(X-60,X+230);
+       image(enemy, enX-30, enY);
+     popMatrix();}
+   }
      
    //boundary
     if(enY>height-60){enY=height-60;}
